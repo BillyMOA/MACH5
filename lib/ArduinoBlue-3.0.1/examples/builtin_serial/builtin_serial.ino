@@ -1,34 +1,28 @@
 /*
-ArduinoBlue example code to demonstrate the features of the app.
+Uses built-in hardware serial instead of software serial.
+Recommended for Arduino boards with more than one serial ports.
+https://www.arduino.cc/reference/en/language/functions/communication/serial/
 */
-#include <Arduino.h>
+
 #include <SoftwareSerial.h>
 #include <ArduinoBlue.h>
 
 const unsigned long BAUD_RATE = 9600;
 
-// The bluetooth tx and rx pins must be supported by software serial.
-// Visit https://www.arduino.cc/en/Reference/SoftwareSerial for unsupported pins.
-// Bluetooth TX -> Arduino D8
-const int BLUETOOTH_TX = 8;
-// Bluetooth RX -> Arduino D7
-const int BLUETOOTH_RX = 7;
-
 int prevThrottle = 49;
 int prevSteering = 49;
 int throttle, steering, sliderVal, button, sliderId;
 
-SoftwareSerial bluetooth(BLUETOOTH_TX, BLUETOOTH_RX);
-ArduinoBlue phone(bluetooth); // pass reference of bluetooth object to ArduinoBlue constructor
+// See: https://www.arduino.cc/reference/en/language/functions/communication/serial/
+ArduinoBlue phone(Serial2);
 
 // Setup code runs once after program starts.
 void setup() {
     // Start serial communications.
-    // The baud rate must be the same for both the serial and the bluetooth.
+    // The baud rate must be the same for both serials.
     Serial.begin(BAUD_RATE);
-    bluetooth.begin(BAUD_RATE);
-    //Set Device Name
-    bluetooth.write("AT+NAMEMACH6");
+    Serial2.begin(BAUD_RATE);
+    
     delay(100);
 
     Serial.println("setup complete");

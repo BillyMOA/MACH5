@@ -1,7 +1,7 @@
 /*
 ArduinoBlue example code to demonstrate the features of the app.
 */
-#include <Arduino.h>
+
 #include <SoftwareSerial.h>
 #include <ArduinoBlue.h>
 
@@ -27,8 +27,6 @@ void setup() {
     // The baud rate must be the same for both the serial and the bluetooth.
     Serial.begin(BAUD_RATE);
     bluetooth.begin(BAUD_RATE);
-    //Set Device Name
-    bluetooth.write("AT+NAMEMACH6");
     delay(100);
 
     Serial.println("setup complete");
